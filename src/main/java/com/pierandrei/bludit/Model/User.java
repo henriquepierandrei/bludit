@@ -4,13 +4,15 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import lombok.Data;
 
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
 @Data
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
     @Email
@@ -20,5 +22,22 @@ public class User {
     @Column(unique = true, nullable = false)
     private String username;
 
-    private String 
+    @Column(nullable = false)
+    private String password;
+
+    @Column(unique = true, nullable = false)
+    private String phone;
+
+    @Column(nullable = false)
+    private LocalDateTime dateBorn;
+
+    @OneToMany(mappedBy = "ownerUser", cascade = CascadeType.ALL)
+    private List<Posts> posts;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Community> communities;
+
+    private String biography;
+
+    private String profilePhotoUrl;
 }
