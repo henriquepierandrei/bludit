@@ -4,4 +4,6 @@ public class UserIsMemberOfTheCommunityException extends RuntimeException{
     public UserIsMemberOfTheCommunityException(){
         super("You are already a member of the community!");
     }
+
+
 }

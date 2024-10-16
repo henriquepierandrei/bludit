@@ -34,31 +34,7 @@ public class UserService {
 
 
 
-    // Join the community
-    private String joinTheCommunity(User user, Community community){
 
-        if (user == null) throw new UserNotExistsException();
-        if (community == null) throw new CommunityNotExistsException();
-
-
-        if (community.getListMembers().contains(user)) throw new UserIsMemberOfTheCommunityException();
-
-        if (!community.isPublic()){
-               List<User> usersRequests = community.getListOfRequests();
-               usersRequests.add(user);
-               community.setListOfRequests(usersRequests);
-               this.communityRepository.save(community);
-               return "Solicitação enviada para "+ community.getName();
-
-        }else{
-            List<User> members = community.getListMembers();
-            members.add(user);
-            community.setListMembers(members);
-            this.communityRepository.save(community);
-            return "Você entrou na comunidade "+ community.getName();
-
-        }
-    }
 
 
 }
