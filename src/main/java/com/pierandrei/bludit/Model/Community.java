@@ -39,4 +39,12 @@ public class Community {
     private LocalDateTime createdAt;
 
     private List<String> categories;
+
+    private boolean isPublic;
+
+    @OneToMany
+    private List<User> listMembers;
+
+    @OneToMany
+    private List<User> listOfRequests;
 }
