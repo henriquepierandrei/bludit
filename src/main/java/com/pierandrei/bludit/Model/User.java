@@ -1,5 +1,6 @@
 package com.pierandrei.bludit.Model;
 
+import com.pierandrei.bludit.Enum.Roles;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import lombok.Data;
@@ -40,4 +41,6 @@ public class User {
     private String biography;
 
     private String profilePhotoUrl;
+
+    private Roles roles;
 }
