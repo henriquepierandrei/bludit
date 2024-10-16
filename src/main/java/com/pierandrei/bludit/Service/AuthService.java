@@ -4,6 +4,7 @@ import com.pierandrei.bludit.Dto.Input.LoginDto;
 import com.pierandrei.bludit.Dto.Input.RegisterDto;
 import com.pierandrei.bludit.Dto.Response.LoginResponse;
 import com.pierandrei.bludit.Dto.Response.RegisterResponse;
+import com.pierandrei.bludit.Enum.Roles;
 import com.pierandrei.bludit.Exception.EmailAlreadyExistsException;
 import com.pierandrei.bludit.Exception.PhoneAlreadyExistsException;
 import com.pierandrei.bludit.Exception.UsernameAlreadyExistsException;
@@ -17,6 +18,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
+import java.util.Collections;
 import java.util.Optional;
 
 @Service
@@ -55,8 +57,19 @@ public class AuthService {
             throw new PhoneAlreadyExistsException();
         }
 
+        User user = new User();
+        user.setBiography("I'm enjoying the best social network, bludit!");
+        user.setEmail(registerDto.email());
+        user.setPassword(passwordEncoder.encode(registerDto.password()));
+        user.setDateBorn(registerDto.dateBorn());
+        user.setUsername(registerDto.username());
+        user.setPhone(registerDto.phone());
+        user.setProfilePhotoUrl("URL HERE");
+        user.setRoles(Roles.USER);
+        this.userRepository.save(user);
 
-
+        String token = tokenService.generateToken(user);
+        return new RegisterResponse(token, user.getUsername(), user.getRoles());
 
     }
 
