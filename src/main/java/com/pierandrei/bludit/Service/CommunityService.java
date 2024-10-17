@@ -11,6 +11,7 @@ import com.pierandrei.bludit.Model.Community.Community;
 import com.pierandrei.bludit.Model.Community.Posts;
 import com.pierandrei.bludit.Model.User;
 import com.pierandrei.bludit.Repository.CommunityRepository;
+import com.pierandrei.bludit.Repository.PostRepository;
 import com.pierandrei.bludit.Repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -19,6 +20,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,6 +29,7 @@ import java.util.stream.Collectors;
 public class CommunityService {
     private final UserRepository userRepository;
     private final CommunityRepository communityRepository;
+    private final PostRepository postRepository;
 
     // ================== USER PART ================== //
 
@@ -103,11 +106,15 @@ public class CommunityService {
 
     // Accept the post
     private PostResponse acceptThePost(Posts post, Community community, User moderator){
-        if (community.getModerators().contains(moderator)){
-            if (post.isApproved()) throw new PostIsApprovedException();
+        if (community.getModerators() == null || !community.getModerators().contains(moderator)){
+            throw new UserIsNotMemberOfTheCommunityException();
         }
-        post.setApproved(true);
+        if (post.isApproved()) throw new PostIsApprovedException();
 
+        post.setApproved(true);
+        this.postRepository.save(post);
+
+        return new PostResponse(post.getOwnerUser().getUsername(), post.getTitle(), LocalDateTime.now(), post.getContent());
 
     }
 
