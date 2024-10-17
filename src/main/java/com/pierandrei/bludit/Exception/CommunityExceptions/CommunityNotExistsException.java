@@ -1,4 +1,4 @@
-package com.pierandrei.bludit.Exception;
+package com.pierandrei.bludit.Exception.CommunityExceptions;
 
 public class CommunityNotExistsException extends RuntimeException{
     public CommunityNotExistsException(){

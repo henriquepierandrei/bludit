@@ -1,4 +1,4 @@
-package com.pierandrei.bludit.Exception;
+package com.pierandrei.bludit.Exception.UserException;
 
 public class EmailAlreadyExistsException extends RuntimeException {
     public EmailAlreadyExistsException() {

@@ -5,9 +5,9 @@ import com.pierandrei.bludit.Dto.Input.RegisterDto;
 import com.pierandrei.bludit.Dto.Response.LoginResponse;
 import com.pierandrei.bludit.Dto.Response.RegisterResponse;
 import com.pierandrei.bludit.Enum.Roles;
-import com.pierandrei.bludit.Exception.EmailAlreadyExistsException;
-import com.pierandrei.bludit.Exception.PhoneAlreadyExistsException;
-import com.pierandrei.bludit.Exception.UsernameAlreadyExistsException;
+import com.pierandrei.bludit.Exception.UserException.EmailAlreadyExistsException;
+import com.pierandrei.bludit.Exception.UserException.PhoneAlreadyExistsException;
+import com.pierandrei.bludit.Exception.UserException.UsernameAlreadyExistsException;
 import com.pierandrei.bludit.Infra.Security.Token;
 import com.pierandrei.bludit.Model.User;
 import com.pierandrei.bludit.Repository.UserRepository;
@@ -18,7 +18,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
-import java.util.Collections;
 import java.util.Optional;
 
 @Service

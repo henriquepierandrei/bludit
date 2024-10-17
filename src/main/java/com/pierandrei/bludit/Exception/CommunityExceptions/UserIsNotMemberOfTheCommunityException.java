@@ -1,4 +1,4 @@
-package com.pierandrei.bludit.Exception;
+package com.pierandrei.bludit.Exception.CommunityExceptions;
 
 public class UserIsNotMemberOfTheCommunityException extends RuntimeException{
     public UserIsNotMemberOfTheCommunityException(){

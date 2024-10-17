@@ -1,23 +1,23 @@
-package com.pierandrei.bludit.Model;
+package com.pierandrei.bludit.Model.Community;
 
+import com.pierandrei.bludit.Model.User;
 import jakarta.persistence.*;
 import lombok.Data;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-@Data
 @Entity
-public class Answer {
+@Data
+public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
-
     @ManyToOne
-    private Comment comment;
+    private Posts posts;
 
-    private LocalDateTime answeredAt;
+    private LocalDateTime commentedAt;
 
     private String content;
 
@@ -25,7 +25,8 @@ public class Answer {
 
     private int dislikes;
 
-
     @ManyToOne
     private User owner;
+
+    private boolean isVisible;
 }

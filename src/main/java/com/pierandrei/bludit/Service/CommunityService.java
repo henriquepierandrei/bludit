@@ -1,18 +1,26 @@
 package com.pierandrei.bludit.Service;
 
+import com.pierandrei.bludit.Dto.Response.PostResponse;
 import com.pierandrei.bludit.Dto.Response.UserResponse;
-import com.pierandrei.bludit.Exception.CommunityNotExistsException;
-import com.pierandrei.bludit.Exception.UserIsMemberOfTheCommunityException;
-import com.pierandrei.bludit.Exception.UserIsNotMemberOfTheCommunityException;
-import com.pierandrei.bludit.Exception.UserNotExistsException;
-import com.pierandrei.bludit.Model.Community;
+import com.pierandrei.bludit.Exception.CommunityExceptions.CommunityNotExistsException;
+import com.pierandrei.bludit.Exception.CommunityExceptions.PostIsApprovedException;
+import com.pierandrei.bludit.Exception.CommunityExceptions.UserIsMemberOfTheCommunityException;
+import com.pierandrei.bludit.Exception.CommunityExceptions.UserIsNotMemberOfTheCommunityException;
+import com.pierandrei.bludit.Exception.UserException.UserNotExistsException;
+import com.pierandrei.bludit.Model.Community.Community;
+import com.pierandrei.bludit.Model.Community.Posts;
 import com.pierandrei.bludit.Model.User;
 import com.pierandrei.bludit.Repository.CommunityRepository;
 import com.pierandrei.bludit.Repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -72,11 +80,36 @@ public class CommunityService {
     // ================== MODERATOR PART ================== //
 
     // Get all Users of the community
-    private List<UserResponse> listAllUserOfCommunity(Community community){
+    private List<UserResponse> listAllUserOfCommunity(Community community, int page, int size) {
+        Sort sort = Sort.by("id").ascending();
+        Pageable pageable = PageRequest.of(page, size, sort);
 
+        if (community == null) throw new CommunityNotExistsException();
+
+
+        List<User> members = community.getListMembers();
+
+
+        Page<User> paginatedMembers = this.communityRepository.findListMembersByCommunity(community, pageable);
+
+
+        List<UserResponse> response = paginatedMembers.stream()
+                .map(user -> new UserResponse(user.getProfilePhotoUrl(), user.getUsername()))
+                .collect(Collectors.toList());
+
+        return response;
     }
 
 
+    // Accept the post
+    private PostResponse acceptThePost(Posts post, Community community, User moderator){
+        if (community.getModerators().contains(moderator)){
+            if (post.isApproved()) throw new PostIsApprovedException();
+        }
+        post.setApproved(true);
+
+
+    }
 
 
 

@@ -1,6 +1,8 @@
 package com.pierandrei.bludit.Model;
 
 import com.pierandrei.bludit.Enum.Roles;
+import com.pierandrei.bludit.Model.Community.Community;
+import com.pierandrei.bludit.Model.Community.Posts;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import lombok.Data;

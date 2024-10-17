@@ -1,5 +1,6 @@
-package com.pierandrei.bludit.Model;
+package com.pierandrei.bludit.Model.Community;
 
+import com.pierandrei.bludit.Model.User;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
