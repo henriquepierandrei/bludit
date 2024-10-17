@@ -1,5 +1,6 @@
 package com.pierandrei.bludit.Service;
 
+import com.pierandrei.bludit.Dto.Response.UserResponse;
 import com.pierandrei.bludit.Exception.CommunityNotExistsException;
 import com.pierandrei.bludit.Exception.UserIsMemberOfTheCommunityException;
 import com.pierandrei.bludit.Exception.UserIsNotMemberOfTheCommunityException;
@@ -19,6 +20,7 @@ public class CommunityService {
     private final UserRepository userRepository;
     private final CommunityRepository communityRepository;
 
+    // ================== USER PART ================== //
 
     // Join the community
     private String joinTheCommunity(User user, Community community){
@@ -46,6 +48,7 @@ public class CommunityService {
         }
     }
 
+    // Leave the community
     private String leaveTheCommunity(User user, Community community) {
         if (user == null) throw new UserNotExistsException();
         if (community == null) throw new CommunityNotExistsException();
@@ -63,5 +66,21 @@ public class CommunityService {
 
         return "You left the community " + community.getName();
     }
+
+
+
+    // ================== MODERATOR PART ================== //
+
+    // Get all Users of the community
+    private List<UserResponse> listAllUserOfCommunity(Community community){
+
+    }
+
+
+
+
+
+
+
 
 }
